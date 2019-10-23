@@ -194,8 +194,6 @@ func XpcConnect(service string, eh XpcEventHandler) XPC {
 
 //export handleXpcEvent
 func handleXpcEvent(event C.xpc_object_t, p C.ulong) {
-	//log.Printf("handleXpcEvent %#v %#v\n", event, p)
-
 	t := C.xpc_get_type(event)
 
 	eh := handlers[uintptr(p)]

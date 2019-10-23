@@ -9,10 +9,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/raff/goble/xpc"
+	"github.com/ge-lighting/goble/xpc"
 )
 
-// "github.com/raff/goble/xpc"
 //
 // BLE support
 //
@@ -171,10 +170,8 @@ func (ble *BLE) HandleXpcEvent(event xpc.Dict, err error) {
 	id := event.MustGetInt("kCBMsgId")
 	args := event.MustGetDict("kCBMsgArgs")
 
-	if ble.verbose {
-		log.Printf("event: %v %#v\n", id, args)
-		defer log.Printf("done event: %v", id)
-	}
+	//fmt.Printf("EVENT!!!!!!!!!!!: %v %#v\n", event, args),
+	defer log.Printf("done event: %v", id)
 
 	switch id {
 	case 4, 6: // state change
@@ -438,6 +435,7 @@ func (ble *BLE) HandleXpcEvent(event xpc.Dict, err error) {
 		isNotification := args.GetInt("kCBMsgArgIsNotification", 0) != 0
 		data := args.GetBytes("kCBMsgArgData", []byte{})
 
+		fmt.Printf("MAYBE A NOTIFICATION????? args [%s]\n", args)
 		if p, ok := ble.peripherals[deviceUuid.String()]; ok {
 			for _, s := range p.Services {
 				if c, ok := s.Characteristics[characteristicsHandle]; ok {
@@ -455,7 +453,7 @@ func (ble *BLE) sendCBMsg(id int, args xpc.Dict) {
 	if ble.verbose {
 		log.Printf("sendCBMsg %#v\n", message)
 	}
-	ble.conn.Send(message, ble.verbose)
+	ble.conn.Send(message, true)
 }
 
 // initialize BLE

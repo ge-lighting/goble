@@ -1,9 +1,8 @@
 package goble
 
 import (
+	"github.com/ge-lighting/goble/xpc"
 	"log"
-
-	"github.com/raff/goble/xpc"
 )
 
 const (
